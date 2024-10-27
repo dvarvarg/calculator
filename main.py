@@ -10,17 +10,18 @@ result=0
 
 
 def calc():
+    global second
     second = float(entry.get())
     if oper=='+':
         result=c.add(first,second)
     elif oper=='-':
-        result=c.subtruct(first,second)
+        result=c.subtract(first,second)
     elif oper=='*':
         result=c.multiply(first,second)
     elif oper=='/':
         result=c.divide(first,second)
     entry.delete(0,END)
-    entry.insert(str(result))
+    entry.insert(0,str(result))
 
 
 # функция ввода числа
@@ -37,17 +38,29 @@ def clear_entry():
 def set_operation(operation):
     global first
     global oper
-    first=float(entry.get())
+    try:
+        first=float(entry.get())
+    except ValueError:
+        first=0
     oper=operation
     entry.delete(0,END)
+
+
+def validate_entry():
+    entry_text=entry.get()
+    txt=''.join(b for b in entry_text if b in '0123456789.-') # список разрешенных символов
+    if entry_text !=txt:
+        entry.delete(0,END)
+        entry.insert(0,txt)
 
 
 window=Tk()
 window.title('Калькулятор')
 window.geometry()
 
-entry=ttk.Entry()
+entry=ttk.Entry(width=20)
 entry.grid(row=0,column=0,columnspan=4,sticky='ew')
+entry.bind('<KeyRelease>',lambda event: validate_entry()) #чтобы вызвать и передать в нее событие-используем лямбда функцию
 
 ttk.Button(text='1', command=lambda: enter_number('1')).grid(row=1,column=0)
 ttk.Button(text='2', command=lambda: enter_number('2')).grid(row=1,column=1)

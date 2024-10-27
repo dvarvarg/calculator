@@ -2,7 +2,7 @@ def add(a,b):
     return a+b
 
 
-def subtruct(a,b):
+def subtract(a,b):
     return a-b
 
 
@@ -11,7 +11,11 @@ def multiply(a,b):
 
 
 def divide(a,b):
-    if b!=0:
+#   if b==0:
+ #       raise ZeroDivisionError('Деление на ноль!')
+#    return a/b
+
+    try:
         return a/b
-    else:
-        return 'Деление на ноль!'
+    except ZeroDivisionError:
+        return 'Делить на ноль нельзя!'
